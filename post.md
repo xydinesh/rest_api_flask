@@ -53,6 +53,64 @@ Task
 POST /tasks
 returns Task
 ```
+
+First I have updated client to send JSON request to the service as follows.
+
+```python
+import requests
+import json
+
+def main():
+    data = {'headline': 'task 01', 'description': 'Adding first task'}
+    headers = {'Content-Type': 'application/json'}
+    res = requests.post('http://localhost:5000/tasks', headers=headers, data=json.dumps(data))
+    print (res.text)
+
+if __name__ == '__main__':
+    main()
+
+```
+
+In order to serve above request, I updated services as follows.
+
+```python
+from flask import (Flask, request, jsonify)
+app = Flask(__name__)
+
+config = {}
+config['tasks_id'] = 0
+config['tasks'] = {}
+
+@app.route('/tasks', methods=['GET', 'POST'])
+def tasks():
+    if request.method == 'POST' and request.headers['Content-Type'] == 'application/json':
+        headline = request.json.get('headline', None)
+        description = request.json.get('description', None)
+        status = request.json.get('status', 'open')
+        priority = request.json.get('priority', 3)
+        if headline is None:
+            return jsonify(result=dict(status='fail', description='Task headline not found'))
+        config['tasks_id'] += 1
+        config['tasks'][config['tasks_id']] = dict(id=config['tasks_id'], headline=headline, description=description, status=status, priority=priority)
+        return jsonify(result=dict(status='success', data=config['tasks'][config['tasks_id']]))
+    return 'Hello World!'
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+```
+As in the first step, run server in one terminal and send request from client in another terminal.
+
+<img src="img/client2.png" width="800" height="250" style="margin-left: 200px; margin-top: 50px"/>
+
+Keep in mind that we have all of these tasks/data in memory. Everytime server restarts we loose our data. We use this design just to get an exposure to REST api development. Now let's go ahead and add GET function implementation in tasks.
+
+```
+GET /tasks
+return [<Tasks>]
+filters status, priority
+```
+
 * What is REST API
 * Explain small example, simple blog example
 * Using Flask to implement it
