@@ -1,4 +1,6 @@
 from flask import (Flask, request, jsonify)
+import json
+
 app = Flask(__name__)
 
 config = {}
@@ -17,7 +19,8 @@ def tasks():
 		config['tasks_id'] += 1
 		config['tasks'][config['tasks_id']] = dict(id=config['tasks_id'], headline=headline, description=description, status=status, priority=priority)
 		return jsonify(result=dict(status='success', data=config['tasks'][config['tasks_id']]))
-	return 'Hello World!'
+
+	return jsonify(result=dict(status='success', data=list(config['tasks'].values())))
 
 if __name__ == '__main__':
     app.run(debug=True)
