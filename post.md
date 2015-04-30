@@ -180,3 +180,54 @@ Test this new service implementation after adding few tasks into memory. If you 
 Otherwise if requested a tasks in memory, you will get a valid task
 
 <img src="img/client4_1.png" width="600" height="200" style="margin-left: 200px; margin-top: 50px"/>
+
+## 05 Part - Updating tasks
+
+Now, we have tasks in memory, lets work on updating task using REST API. For update we can either use PUT or POST. I would like to use POST in this implementation. If you want to use PUT, you can just add PUT in methods. As we did before, first create a client.
+
+```python
+def main():
+    headers = {'Content-Type': 'application/json'}
+    data = {'headline': 'task 01', 'description': 'Updated task description for first test'}
+    res = requests.post('http://localhost:5000/tasks/1', headers=headers, data=json.dumps(data))
+    print (res.text)
+```
+
+As you might have expected, this client should throw an error as we don't have a service implementation yet.
+
+<img src="img/client5.png" width="600" height="120" style="margin-left: 200px; margin-top: 50px"/>
+
+Let's go ahead and add service implementation for this client request.
+
+```python
+@app.route('/tasks/<int:id>', methods=['GET', 'POST'])
+def task(id):
+    task = config['tasks'].get(id, None)
+    if task is None:
+        return jsonify(result=dict(status='fail', data=None))
+
+    if request.method == 'POST' and request.headers['Content-Type'] == 'application/json':
+        headline = request.json.get('headline', None)
+        description = request.json.get('description', None)
+        status = request.json.get('status', None)
+        priority = request.json.get('priority', None)
+
+        if headline is not None:
+            task['headline'] = headline
+        if description is not None:
+            task['description'] = description
+        if status is not None:
+            task['status']  = status
+        if priority is not None:
+            task['priority'] = priority
+
+        config['tasks'][id] = task
+
+        return jsonify(result=dict(status='success', data=task))
+    return jsonify(result=dict(status='success', data=config['tasks'][id]))
+
+```
+
+Now let's see, the response we got.
+
+<img src="img/client5_1.png" width="600" height="220" style="margin-left: 200px; margin-top: 50px"/>

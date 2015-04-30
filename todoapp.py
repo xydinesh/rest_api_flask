@@ -22,11 +22,30 @@ def tasks():
 
 	return jsonify(result=dict(status='success', data=list(config['tasks'].values())))
 
-@app.route('/tasks/<int:id>')
+@app.route('/tasks/<int:id>', methods=['GET', 'POST'])
 def task(id):
 	task = config['tasks'].get(id, None)
 	if task is None:
 		return jsonify(result=dict(status='fail', data=None))
+
+	if request.method == 'POST' and request.headers['Content-Type'] == 'application/json':
+		headline = request.json.get('headline', None)
+		description = request.json.get('description', None)
+		status = request.json.get('status', None)
+		priority = request.json.get('priority', None)
+
+		if headline is not None:
+			task['headline'] = headline
+		if description is not None:
+			task['description'] = description
+		if status is not None:
+			task['status']  = status
+		if priority is not None:
+			task['priority'] = priority
+
+		config['tasks'][id] = task
+
+		return jsonify(result=dict(status='success', data=task))
 	return jsonify(result=dict(status='success', data=config['tasks'][id]))
 
 if __name__ == '__main__':
