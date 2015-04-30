@@ -1,5 +1,5 @@
 # Rest API in Flask
-<img src="img/designk.jpeg" width="700" height="400" style="margin-left: 200px; margin-top: 50px"/>
+<img src="https://s3.amazonaws.com/xydinesh.com/rest_api_with_flask/designk.jpeg" width="700" height="400" style="margin-left: 200px; margin-top: 50px"/>
 
 In order to understand how to design REST API's in Flask, Let's work on a simple example. Let's not worry about authentication or having multiple user accounts in this example. Let's create a simple TODO app where you can keep track of TODO items. For simplicity we will not deal with database part for now. All data for this application will be in the memory. I have worked out a simple design for this app in a paper.
 
@@ -31,10 +31,9 @@ def main():
 if __name__ == '__main__':
     main()
 ```
+<img src="https://s3.amazonaws.com/xydinesh.com/rest_api_with_flask/client1.png" width="700" height="50" style="margin-left: 200px; margin-top: 50px"/>
 
-<img src="img/client1.png" width="700" height="50" style="margin-left: 200px; margin-top: 50px"/>
-
-<img src="img/server1.png" width="700" height="70" style="margin-left: 200px; margin-top: 50px"/>
+<img src="https://s3.amazonaws.com/xydinesh.com/rest_api_with_flask/server1.png" width="700" height="70" style="margin-left: 200px; margin-top: 50px"/>
 
 First go ahead an start server in one terminal, in another terminal use client to access the server. If server starts properly, you could see an output similer to above output.
 
@@ -103,7 +102,7 @@ if __name__ == '__main__':
 ```
 As in the first step, run server in one terminal and send request from client in another terminal.
 
-<img src="img/client2.png" width="800" height="250" style="margin-left: 200px; margin-top: 50px"/>
+<img src="https://s3.amazonaws.com/xydinesh.com/rest_api_with_flask/client2.png" width="800" height="250" style="margin-left: 200px; margin-top: 50px"/>
 
 ## Part 03
 Keep in mind that we have all of these tasks/data in memory. Everytime server restarts we loose our data. We use this design just to get an exposure to REST api development. Now let's go ahead and add GET function implementation in tasks. 
@@ -143,7 +142,7 @@ def tasks():
     return jsonify(result=dict(status='success', data=list(config['tasks'].values())))
 
 ```
-<img src="img/client3.png" width="800" height="450" style="margin-left: 200px; margin-top: 50px"/>
+<img src="https://s3.amazonaws.com/xydinesh.com/rest_api_with_flask/client3.png" width="800" height="450" style="margin-left: 200px; margin-top: 50px"/>
 
 ## Part 04
 
@@ -159,7 +158,7 @@ def main():
 
 Remember, we don't have a service implementation for this one yet. However let's run client and see what happens.
 
-<img src="img/client4.png" width="800" height="100" style="margin-left: 200px; margin-top: 50px"/>
+<img src="https://s3.amazonaws.com/xydinesh.com/rest_api_with_flask/client4.png" width="800" height="100" style="margin-left: 200px; margin-top: 50px"/>
 
 Move on to add, service implementation.
 
@@ -175,11 +174,11 @@ def task(id):
 
 Test this new service implementation after adding few tasks into memory. If you don't have any tasks in memory, you will get something like below.
 
-<img src="img/client4_2.png" width="600" height="150" style="margin-left: 200px; margin-top: 50px"/>
+<img src="https://s3.amazonaws.com/xydinesh.com/rest_api_with_flask/client4_2.png" width="600" height="150" style="margin-left: 200px; margin-top: 50px"/>
 
 Otherwise if requested a tasks in memory, you will get a valid task
 
-<img src="img/client4_1.png" width="600" height="200" style="margin-left: 200px; margin-top: 50px"/>
+<img src="https://s3.amazonaws.com/xydinesh.com/rest_api_with_flask/client4_1.png" width="600" height="200" style="margin-left: 200px; margin-top: 50px"/>
 
 ## 05 Part - Updating tasks
 
@@ -195,7 +194,7 @@ def main():
 
 As you might have expected, this client should throw an error as we don't have a service implementation yet.
 
-<img src="img/client5.png" width="600" height="120" style="margin-left: 200px; margin-top: 50px"/>
+<img src="https://s3.amazonaws.com/xydinesh.com/rest_api_with_flask/client5.png" width="600" height="120" style="margin-left: 200px; margin-top: 50px"/>
 
 Let's go ahead and add service implementation for this client request.
 
@@ -230,7 +229,7 @@ def task(id):
 
 Now let's see, the response we got.
 
-<img src="img/client5_1.png" width="600" height="220" style="margin-left: 200px; margin-top: 50px"/>
+<img src="https://s3.amazonaws.com/xydinesh.com/rest_api_with_flask/client5_1.png" width="600" height="220" style="margin-left: 200px; margin-top: 50px"/>
 
 ## Part 06 - Delete a task
 
@@ -278,7 +277,7 @@ def task(id):
 ```
 
 You can see the output here
-<img src="img/client6.png" width="600" height="120" style="margin-left: 200px; margin-top: 50px"/>
+<img src="https://s3.amazonaws.com/xydinesh.com/rest_api_with_flask/client6.png" width="600" height="120" style="margin-left: 200px; margin-top: 50px"/>
 ## Next Tutorials
 We will use same API we developed here for following tutorials.
 * Using SQLAlchemy with Flask
