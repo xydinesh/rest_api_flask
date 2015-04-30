@@ -22,5 +22,12 @@ def tasks():
 
 	return jsonify(result=dict(status='success', data=list(config['tasks'].values())))
 
+@app.route('/tasks/<int:id>')
+def task(id):
+	task = config['tasks'].get(id, None)
+	if task is None:
+		return jsonify(result=dict(status='fail', data=None))
+	return jsonify(result=dict(status='success', data=config['tasks'][id]))
+
 if __name__ == '__main__':
     app.run(debug=True)

@@ -144,3 +144,39 @@ def tasks():
 
 ```
 <img src="img/client3.png" width="800" height="450" style="margin-left: 200px; margin-top: 50px"/>
+
+## Part 04
+
+Let's move on to implement individual task URI's. After creating a tasks we will have task id. Let's use taks id to get information about task. My client implementation is shown below.
+
+```python
+def main():
+    data = {'headline': 'task 01', 'description': 'Adding first task'}
+    headers = {'Content-Type': 'application/json'}
+    res = requests.get('http://localhost:5000/tasks/1')
+    print (res.text)
+```
+
+Remember, we don't have a service implementation for this one yet. However let's run client and see what happens.
+
+<img src="img/client4.png" width="800" height="100" style="margin-left: 200px; margin-top: 50px"/>
+
+Move on to add, service implementation.
+
+```python
+@app.route('/tasks/<int:id>')
+def task(id):
+    task = config['tasks'].get(id, None)
+    if task is None:
+        return jsonify(result=dict(status='fail', data=None))
+    return jsonify(result=dict(status='success', data=config['tasks'][id]))
+
+```
+
+Test this new service implementation after adding few tasks into memory. If you don't have any tasks in memory, you will get something like below.
+
+<img src="img/client4_2.png" width="600" height="150" style="margin-left: 200px; margin-top: 50px"/>
+
+Otherwise if requested a tasks in memory, you will get a valid task
+
+<img src="img/client4_1.png" width="600" height="200" style="margin-left: 200px; margin-top: 50px"/>
