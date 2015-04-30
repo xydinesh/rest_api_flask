@@ -22,7 +22,7 @@ def tasks():
 
 	return jsonify(result=dict(status='success', data=list(config['tasks'].values())))
 
-@app.route('/tasks/<int:id>', methods=['GET', 'POST'])
+@app.route('/tasks/<int:id>', methods=['GET', 'POST', 'DELETE'])
 def task(id):
 	task = config['tasks'].get(id, None)
 	if task is None:
@@ -44,8 +44,11 @@ def task(id):
 			task['priority'] = priority
 
 		config['tasks'][id] = task
-
 		return jsonify(result=dict(status='success', data=task))
+	elif request.method == 'DELETE' and request.headers['Content-Type'] == 'application/json':
+		del config['tasks'][id]
+		return jsonify(result=dict(status='success', data=None))
+
 	return jsonify(result=dict(status='success', data=config['tasks'][id]))
 
 if __name__ == '__main__':

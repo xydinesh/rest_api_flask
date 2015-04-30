@@ -231,3 +231,55 @@ def task(id):
 Now let's see, the response we got.
 
 <img src="img/client5_1.png" width="600" height="220" style="margin-left: 200px; margin-top: 50px"/>
+
+## Part 06 - Delete a task
+
+Now we are in the final part of the api. Let's go ahead and delete a task we have. As we did before write a client first.
+
+```python
+def main():
+    headers = {'Content-Type': 'application/json'}
+    res = requests.delete('http://localhost:5000/tasks/1', headers=headers)
+    print (res.text)
+
+```
+Also, as we saw previous parts we will get a "Method Not Allowed" error. That's OK. Let's go ahead and add service to delete a taks.
+
+```python
+@app.route('/tasks/<int:id>', methods=['GET', 'POST', 'DELETE'])
+def task(id):
+    task = config['tasks'].get(id, None)
+    if task is None:
+        return jsonify(result=dict(status='fail', data=None))
+
+    if request.method == 'POST' and request.headers['Content-Type'] == 'application/json':
+        headline = request.json.get('headline', None)
+        description = request.json.get('description', None)
+        status = request.json.get('status', None)
+        priority = request.json.get('priority', None)
+
+        if headline is not None:
+            task['headline'] = headline
+        if description is not None:
+            task['description'] = description
+        if status is not None:
+            task['status']  = status
+        if priority is not None:
+            task['priority'] = priority
+
+        config['tasks'][id] = task
+        return jsonify(result=dict(status='success', data=task))
+    elif request.method == 'DELETE' and request.headers['Content-Type'] == 'application/json':
+        del config['tasks'][id]
+        return jsonify(result=dict(status='success', data=None))
+
+    return jsonify(result=dict(status='success', data=config['tasks'][id]))
+
+```
+
+You can see the output here
+<img src="img/client6.png" width="600" height="120" style="margin-left: 200px; margin-top: 50px"/>
+## Next Tutorials
+We will use same API we developed here for following tutorials.
+* Using SQLAlchemy with Flask
+* Test driven development with Flask.
